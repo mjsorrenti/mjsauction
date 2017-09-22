@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1> Welcome to the BPS Auction</h1>
+
+    <h2>Items up for bid:</h2>
+
+    {% if auctionitem_list %}
+    <table>
+        <tbody>
+            <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Current Bid</th>
+            </tr>
+        
+        {% for item in auctionitem_list %}
+        <tr>
+            <td>{{item.item_number}}</td>
+            <td><a href="{{item.get_absolute_url}}">{{item.name}}</a></td>
+            <td>{{item.current_bid}}</td>
+        </tr>
+        {% endfor %}
+        
+        </tbody>    
+    </table>
+
+    {% else %}
+        <P>There are no items currently up for bid.</P>
+    {% endif %}
+
+{% endblock %}

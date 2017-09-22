@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block login-header %}
+<div></div>
+{% endblock %}
+
+{% block content %}
+
+<p>You have successfully logged out.</p>
+
+<p><a href="{% url 'login' %}">Log back in</a></p>
+
+<p><a href="/">Home page</a></p>
+
+{% endblock %}

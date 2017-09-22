@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    <p><a href="/">Back to list</a></p>
+
+    <h1>{{auctionitem.name}}</h1>
+
+    <p>{{auctionitem.description}}</p>
+
+    <p>Current bid: ${{auctionitem.current_bid}}</p>
+
+    {% if lowbid %}
+        <p>Your bid must be higher than the current bid!</p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <form action="" method="post">
+        {% csrf_token %}
+        
+        <table>
+        {{form}}
+        </table>
+        <input type="submit" value="Place your bid!" />
+
+    </form>
+    
+    {% else %}
+        <p>Please <a href="{% url 'login' %}">log in</a> to place a bid.</p>
+
+    {% endif %}
+
+{% endblock %}

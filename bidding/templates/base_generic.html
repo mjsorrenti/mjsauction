@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block title %}<title>BPS Auction</title>{% endblock %}
+    <meta charset="utf-8">
+</head>
+
+<body>
+    {% block login-header %}
+    <header>
+        {% if user.is_authenticated %}
+            <p>You are logged in as {{user.first_name}} {{user.last_name}}.</p>
+            <a href="{% url 'logout' %}">Log out</a>
+        {% else %}
+            <a href="{% url 'login' %}">Log in to bid.</a>
+        {% endif %}
+    </header>
+    {% endblock %}
+    
+    
+    
+  {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+</body>
+</html>
