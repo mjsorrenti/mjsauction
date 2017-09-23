@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '%n*h3sqrc@9&nc324^&3()%&24g96*
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['vast-springs-79822.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
