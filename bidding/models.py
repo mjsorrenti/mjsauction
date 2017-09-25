@@ -22,3 +22,6 @@ class AuctionItem(models.Model):
     
     def get_absolute_url(self):
         return reverse('item-detail', args=[str(self.item_number)])
+    
+    class Meta:
+        ordering = ["item_number"]

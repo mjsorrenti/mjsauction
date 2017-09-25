@@ -26,6 +26,7 @@ def item_detail_view(request, pk):
         if form.is_valid():
             if form.cleaned_data['bid'] > item.current_bid:
                 item.current_bid = form.cleaned_data['bid']
+                item.current_bidder = request.user
                 item.save()
             
                 return render(request, 'bidding/bid_accepted.html')
