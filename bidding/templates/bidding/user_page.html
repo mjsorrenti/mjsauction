@@ -1,0 +1,35 @@
+    {% extends "base_generic.html" %}
+
+{% block content %}
+
+    <h1>{{user.first_name}} {{user.last_name}}</h1>
+
+    {% if high_bids %}
+
+        <h2>You are the leading bidder on the following items:</h2>
+
+        <table>
+        <tbody>
+            <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Current Bid</th>
+            </tr>
+        
+        {% for item in high_bids %}
+        <tr>
+            <td>{{item.item_number}}</td>
+            <td><a href="{{item.get_absolute_url}}">{{item.name}}</a></td>
+            <td>{{item.current_bid}}</td>
+        </tr>
+        {% endfor %}
+        
+        </tbody>    
+        </table>
+
+    {% else %}
+        <p>You are not the leading bidder on any items.</p>
+
+    {% endif %}
+
+{% endblock %}

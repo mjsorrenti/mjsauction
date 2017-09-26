@@ -1,3 +1,59 @@
-* {
-    font-size: 1.5rem
+html {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+}
+
+body {
+    min-width: 250px;
+    margin: 0 auto;
+    background-color: rgb(240, 240, 240);
+}
+
+header {
+    font-size: 1.5rem;
+    
+    border-bottom: solid rgb(75, 75, 75) 1px;
+    background-color: white;
+    position: fixed;
+    top: 0px;
+    min-width: 250px;
+}
+
+header ul {
+    padding: 0;
+    list-style: none;
+}
+
+header ul li {
+    display: inline-block;
+    padding: 0 10px;
+}
+
+header img {
+    width: 30px;
+    vertical-align: middle;
+}
+
+a[href*=login] {
+    padding: 10px;
+    background-color: red;
+    border-radius: 3px;
+    text-decoration: none;
+    color: white;
+    vertical-align: middle;
+    
+}
+
+a[href*=logout] {
+    padding: 10px;
+    background-color: gainsboro;
+    border-radius: 3px;
+    text-decoration: none;
+    color: gray;
+    vertical-align: middle;
+    
+}
+
+main {
+    margin-top: 120px;
 }
