@@ -1,9 +1,11 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1> Welcome to the BPS Auction</h1>
-
-    <h2>Items up for bid:</h2>
+    <h1 id="main-title"> Welcome to the BPS Auction</h1>
+    
+    {% load static %}
+    <img src="{% static 'images/bps.png' %}">
+    
 
     {% if auctionitem_list %}
     <table>
@@ -18,7 +20,7 @@
         <tr>
             <td>{{item.item_number}}</td>
             <td><a href="{{item.get_absolute_url}}">{{item.name}}</a></td>
-            <td>{{item.current_bid}}</td>
+            <td>${{item.current_bid}}</td>
         </tr>
         {% endfor %}
         

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  {% block title %}<title>BPS Auction</title>{% endblock %}
+    <title>{% block title %}BPS Auction{% endblock %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -15,10 +15,10 @@
         <ul>
             <li><a href="/"><img src="{% static 'images/home.svg' %}"></a></li>
         {% if user.is_authenticated %}
-            <li><a href="/bidding/userpage"><img src="{% static 'images/user.svg' %}"></a></li>
+            <li><a href="{% url 'user-page' %}"><img src="{% static 'images/user.svg' %}"></a></li>
             <li><a href="{% url 'logout' %}?next={{request.path}}">Log out</a></li>
         </ul>
-            <p>You are logged in as {{user.first_name}} {{user.last_name}}.</p>
+            <p>You are logged in as <span class="username">{{user.first_name}} {{user.last_name}}</span>.</p>
         {% else %}
             <li><a href="{% url 'login' %}?next={{request.path}}">Log in to bid</a></li>
         </ul>

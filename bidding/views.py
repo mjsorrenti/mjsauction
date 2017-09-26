@@ -30,7 +30,7 @@ def item_detail_view(request, pk):
                 item.current_bidder = request.user
                 item.save()
             
-                return render(request, 'bidding/bid_accepted.html')
+                return render(request, 'bidding/auctionitem_detail.html', {'auctionitem':item, 'acceptedbid':True})
         
             else:
                 return render(request, 'bidding/auctionitem_detail.html', {'form':form, 'auctionitem':item, 'lowbid':True})
@@ -43,6 +43,14 @@ def item_detail_view(request, pk):
 
 @login_required
 def user_page_view(request):
+    total_bid=0  #Tally the total currently owed 
+    bidding_closed = True  #Assume bidding is closed on all items
     user_high_bids = AuctionItem.objects.filter(current_bidder=request.user)
     
-    return render(request, 'bidding/user_page.html', {'high_bids':user_high_bids})
+    for item in user_high_bids:
+        total_bid += item.current_bid
+        #If bidding is still open on any items, do not show payment info on the summary
+        if item.bidding_open:
+            bidding_closed = False
+        
+    return render(request, 'bidding/user_page.html', context={'high_bids':user_high_bids, 'total_bid':total_bid, 'bidding_closed':bidding_closed,})

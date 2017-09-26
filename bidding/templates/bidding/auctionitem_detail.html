@@ -1,18 +1,30 @@
 {% extends "base_generic.html" %}
 
+{% block title %}{{auctionitem.name}}{% endblock %}
+
 {% block content %}
 
     <h1>{{auctionitem.name}}</h1>
 
-    <p>{{auctionitem.description}}</p>
+    
 
+    {% if acceptedbid %}
+    <p class="success">Current bid: ${{auctionitem.current_bid}}</p>
+    <p class="success">Your bid has been accepted!</p>
+    {% else %}
     <p>Current bid: ${{auctionitem.current_bid}}</p>
-
-    {% if lowbid %}
-        <p>Your bid must be higher than the current bid!</p>
     {% endif %}
 
-    {% if not auctionitem.bidding_open %}
+    <p class="description">{{auctionitem.description}}</p>
+
+    {% if lowbid %}
+        <p class="warning">Your bid must be higher than the current bid!</p>
+    {% endif %}
+
+    {% if acceptedbid %}
+        <p></p>
+
+    {% elif not auctionitem.bidding_open %}
         <p>Bidding is closed on this item.</p>
 
     {% elif user.is_authenticated %}
@@ -20,10 +32,12 @@
         {% csrf_token %}
         
         <table>
-        {{form}}
+            {{form}}
+            <tr>
+                <td id="submit_bid" colspan="2"><input type="submit" value="Place your bid!" /></td>
+            </tr>
         </table>
-        <input type="submit" value="Place your bid!" />
-
+        
         </form>
     
     {% else %}

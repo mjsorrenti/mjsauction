@@ -1,12 +1,19 @@
-    {% extends "base_generic.html" %}
+{% extends "base_generic.html" %}
+
+{% block title %}{{user.first_name}} {{user.last_name}}{% endblock %}
 
 {% block content %}
 
     <h1>{{user.first_name}} {{user.last_name}}</h1>
 
+    
     {% if high_bids %}
-
-        <h2>You are the leading bidder on the following items:</h2>
+        
+        {% if bidding_closed %}
+        <h2 class="success">Congratulations! You have the winning bid on these items:</h2>
+        {% else %}
+        <h2>You are the leading bidder on these items:</h2>
+        {% endif %}
 
         <table>
         <tbody>
@@ -20,15 +27,29 @@
         <tr>
             <td>{{item.item_number}}</td>
             <td><a href="{{item.get_absolute_url}}">{{item.name}}</a></td>
-            <td>{{item.current_bid}}</td>
+            <td>${{item.current_bid}}</td>
         </tr>
         {% endfor %}
         
+        <tr class="total-bid">
+            <td colspan="2">Total bid:</td>
+            <td>${{total_bid}}</td>
+        </tr>
+            
         </tbody>    
         </table>
+        
+        {% if bidding_closed %}
+        <a id="payment-button" href="">Submit Payment</a>
+        {% endif %}
 
     {% else %}
+        {% if bidding_closed %}
+        <p>Sorry, you were not the leading bidder on any items.</p>
+        <p>Thanks for participating in the Brown Play School auction.</p>
+        {% else %}
         <p>You are not the leading bidder on any items.</p>
+        {% endif %}
 
     {% endif %}
 
