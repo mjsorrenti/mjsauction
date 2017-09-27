@@ -23,5 +23,44 @@ class AuctionItem(models.Model):
     def get_absolute_url(self):
         return reverse('item-detail', args=[str(self.item_number)])
     
+    def high_bid(self):
+        """
+        Gets the current high bid value on this item
+        """
+        high_bid = 0
+        
+        for bid in self.bid_set.all():
+            if bid.amount > high_bid:
+                high_bid = bid.amount
+                
+        return high_bid
+    
+    def high_bidder(self):
+        """
+        Gets the current high bid value on this item
+        """
+        high_bid = 0
+        high_bidder = ''
+        
+        for bid in self.bid_set.all():
+            if bid.amount > high_bid:
+                high_bidder = bid.bidder
+                
+        return high_bidder
+    
+    
     class Meta:
         ordering = ["item_number"]
+        
+        
+class Bid(models.Model):
+    """
+    Model to capture all bids
+    """
+    
+    item = models.ForeignKey(AuctionItem, on_delete=models.SET_NULL, null=True)
+    bidder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    amount = models.IntegerField()
+    
+    def __str__(self):
+        return str(self.id)

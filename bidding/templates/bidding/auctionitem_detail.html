@@ -9,10 +9,10 @@
     
 
     {% if acceptedbid %}
-    <p class="success">Current bid: ${{auctionitem.current_bid}}</p>
+    <p class="success">Current bid: ${{auctionitem.high_bid}}</p>
     <p class="success">Your bid has been accepted!</p>
     {% else %}
-    <p>Current bid: ${{auctionitem.current_bid}}</p>
+    <p>Current bid: ${{auctionitem.high_bid}}</p>
     {% endif %}
 
     {% if auctionitem.description %}
