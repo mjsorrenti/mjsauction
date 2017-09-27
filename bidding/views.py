@@ -64,7 +64,7 @@ def user_page_view(request):
     total_bid=0  #Tally the total currently owed 
     bidding_closed = True  #Assume bidding is closed on all items
     user_bids = Bid.objects.filter(bidder=request.user).select_related('item') #All bids placed by user
-    user_high_bids = set() # List of items that the user is the high bidder on
+    user_high_bids = set() #List of items that the user is the high bidder on
     all_bid_items = set() #All items the user has placed bids on
     
     # Find all items where user is the high bidder and tally those bids
