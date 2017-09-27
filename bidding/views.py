@@ -2,18 +2,35 @@ from django.shortcuts import render
 from django.views import generic
 from .models import AuctionItem
 from django.shortcuts import get_object_or_404
-#from django.http import HttpResponseRedirect
-#from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 #from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 
 from .forms import BidForm
+from .forms import SelectItemForm
 
 # Create your views here.
 
-class ItemsListView(generic.ListView):
-    model = AuctionItem
+#class ItemsListView(generic.ListView):
+#    model = AuctionItem
+
+def item_list_view(request):
+    model = AuctionItem.objects.all();
     
+    if request.method == 'POST':
+        form = SelectItemForm(request.POST)
+        
+        if form.is_valid():
+            pk = form.cleaned_data['item_number']
+            
+            return HttpResponseRedirect(reverse('item-detail', args=[pk]))
+    else:
+        form = SelectItemForm()
+        
+    return render(request, 'bidding/auctionitem_list.html', {'form':form, 'auctionitem_list':model})
+
+
 # class ItemDetailView(generic.DetailView):
 #    model = AuctionItem
 

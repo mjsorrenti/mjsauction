@@ -15,7 +15,9 @@
     <p>Current bid: ${{auctionitem.current_bid}}</p>
     {% endif %}
 
+    {% if auctionitem.description %}
     <p class="description">{{auctionitem.description}}</p>
+    {% endif %}
 
     {% if lowbid %}
         <p class="warning">Your bid must be higher than the current bid!</p>
@@ -34,7 +36,7 @@
         <table>
             {{form}}
             <tr>
-                <td id="submit_bid" colspan="2"><input type="submit" value="Place your bid!" /></td>
+                <td class="submitcell" colspan="2"><input type="submit" value="Place your bid!" /></td>
             </tr>
         </table>
         

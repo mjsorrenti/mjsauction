@@ -5,9 +5,18 @@
     
     {% load static %}
     <img src="{% static 'images/BPS.png' %}">
+
+    <p>Browse the list or enter an item number directly.</p>
+        <form id="item-selector" action="" method="post">
+            {% csrf_token %}
+            <table>
+                {{ form }}                
+            </table>
+            <input type="submit" value="Go" />
+        </form>
     
 
-    {% if auctionitem_list %}
+  {% if auctionitem_list %}
     <table>
         <tbody>
             <tr>

@@ -139,9 +139,13 @@ h1 + p {
 p.description {
     font-size: 1.3rem;
     font-style: italic;
-    margin-bottom: 2rem;
+    margin: 0 2rem 2rem;
+    padding: 1rem;
+    background-color: rgba(200,200,200,0.5);
 }
 
+
+/* Styling for forms (particularly the bid submit and login forms) */
 form th, form td {
     border: none;
     padding: 0.5rem;
@@ -151,21 +155,51 @@ input {
     font-size: inherit;
 }
 
-input#id_bid {
+input[type='number'] {
     width: 7rem;
 }
 
-#submit_bid {
+form .submitcell {
     text-align: center;
 }
 
-#submit_bid input {
+input[type='submit'] {
     padding: 1rem;
     background-color: green;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     color: white;
+}
+
+/* Styling for the item selector form on the home page */
+
+#item-selector table {
+    display: inline-block;
+    margin: 0;
+    vertical-align: middle;
+}
+
+#item-selector input[type='submit'] {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    vertical-align: middle;
+}
+
+/* Handle elegant display of the error message */
+#item-selector td:first-of-type {
+    position: relative;
+}
+
+#item-selector ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: red;
+    font-size: 1rem;
+    position: absolute;
+    top: 3rem;
+    width: 20rem;
 }
 
 
