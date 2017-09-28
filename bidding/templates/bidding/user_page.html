@@ -48,4 +48,30 @@
         
     {% endif %}
 
+    {% if out_bids %}
+        <div id="outbids">
+        <h4>You have been outbid on these items:</h4>
+        
+        <table>
+        <tbody>
+            <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Your Bid</th>
+                <th>Current Bid</th>
+            </tr>
+        
+        {% for bid in out_bids %}
+            <tr>
+                <td>{{bid.item.item_number}}</td>
+                <td><a href="{{bid.item.get_absolute_url}}">{{bid.item.name}}</a></td>
+                <td class="losing-bid">${{bid.amount}}</td>
+                <td>${{bid.item.high_bid}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        </div>
+    {% endif %}
+
 {% endblock %}

@@ -7,6 +7,7 @@ from .models import AuctionItem, Bid
 @admin.register(Bid)
 class BidAdmin(admin.ModelAdmin):
     list_display = ('id', 'item', 'amount', 'bidder')
+    list_filter = ('item', 'bidder')
        
 class BidInline(admin.TabularInline):
     model = Bid

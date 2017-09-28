@@ -13,8 +13,8 @@ class AuctionItem(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, null=True, blank=True)
     #image = models.ImageField(null=True, blank=True)
-    current_bid = models.IntegerField(default=0)
-    current_bidder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    #current_bid = models.IntegerField(default=0)
+    #current_bidder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     bidding_open = models.BooleanField(default=True)
     
     def __str__(self):

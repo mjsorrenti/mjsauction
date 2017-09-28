@@ -104,6 +104,12 @@ th, td {
     padding: 1.5rem 1rem;
     max-width: 25rem;
     border-bottom: solid rgba(200,200,200,0.5) 1px;
+    text-align: center;
+}
+
+/* Left align item names in tables */
+tr, td:nth-of-type(2) {
+    text-align: left;
 }
 
 /* Styling for the summary row on the user pages */
@@ -190,6 +196,7 @@ input[type='submit'] {
 /* Handle elegant display of the error message */
 #item-selector td:first-of-type {
     position: relative;
+    text-align: left;
 }
 
 #item-selector ul {
@@ -202,6 +209,21 @@ input[type='submit'] {
     top: 3rem;
     width: 20rem;
 }
+
+
+/* Styling for outbid items table on user pages */
+#outbids {
+    margin-top: 4rem;
+    padding: 1rem;
+    border: dashed rgba(200,200,200,0.5) 1px;
+    color: rgb(100,100,100);
+    background-color: rgba(240,240,240,0.5);
+}
+
+#outbids h4,.losing-bid {
+    color: rgba(255,0,0,0.5);
+}
+
 
 
 /* Generic font colors throughout the site */

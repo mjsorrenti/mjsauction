@@ -65,22 +65,33 @@ def user_page_view(request):
     bidding_closed = True  #Assume bidding is closed on all items
     user_bids = Bid.objects.filter(bidder=request.user).select_related('item') #All bids placed by user
     user_high_bids = set() #List of items that the user is the high bidder on
-    all_bid_items = set() #All items the user has placed bids on
+    user_out_bids = set()  #List of items that the user has been outbid on
     
     # Find all items where user is the high bidder and tally those bids
     for item in AuctionItem.objects.all():
         if item.high_bidder() == request.user:
             user_high_bids.add(item)
             total_bid += item.high_bid()
+            if item.bidding_open:
+                bidding_closed = False
+    
+    #List of items to skip in the next for loop
+    skipitemslist = set()
     
     for bid in user_bids:
-        if bid.item not in all_bid_items:
-            all_bid_items.add(bid.item)
-    
+        if bid.item in skipitemslist or bid.item in user_high_bids: #See if this item has already been checked
+            continue
+            
+        skipitemslist.add(bid.item) #Add this item to the skip list for subsequent loops
+        
+        bidcomparelist = user_bids.filter(item=bid.item).order_by('amount') #List of user bids on a particular item sorted by bid amount
+        user_out_bids.add(bidcomparelist.last())
+        
+   
     #for item in user_high_bids:
     #    total_bid += item.current_bid
     #    #If bidding is still open on any items, do not show payment info on the summary
     #    if item.bidding_open:
     #        bidding_closed = False
         
-    return render(request, 'bidding/user_page.html', context={'high_bids':user_high_bids, 'total_bid':total_bid, 'bidding_closed':bidding_closed,})
+    return render(request, 'bidding/user_page.html', context={'high_bids':user_high_bids, 'total_bid':total_bid, 'bidding_closed':bidding_closed, 'out_bids':user_out_bids,})
