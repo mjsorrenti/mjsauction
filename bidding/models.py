@@ -44,6 +44,7 @@ class AuctionItem(models.Model):
         
         for bid in self.bid_set.all():
             if bid.amount > high_bid:
+                high_bid = bid.amount
                 high_bidder = bid.bidder
                 
         return high_bidder
@@ -64,3 +65,10 @@ class Bid(models.Model):
     
     def __str__(self):
         return str(self.id)
+    
+    def winning_bid(self):
+        if self.amount == self.item.high_bid():
+            return True
+        else:
+            return False
+    winning_bid.boolean = True

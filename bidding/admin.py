@@ -6,7 +6,7 @@ from .models import AuctionItem, Bid
 
 @admin.register(Bid)
 class BidAdmin(admin.ModelAdmin):
-    list_display = ('id', 'item', 'amount', 'bidder')
+    list_display = ('id', 'item', 'amount', 'bidder', 'winning_bid')
     list_filter = ('item', 'bidder')
        
 class BidInline(admin.TabularInline):
@@ -20,7 +20,7 @@ class AuctionItemAdmin(admin.ModelAdmin):
     list_display_links = ('item_number', 'name')
     #list_editable = ('bidding_open',)
     inlines = [BidInline]
-    #list_filter = ('current_bid', 'current_bidder')
+    
     
     actions = ['close_bidding', 'open_bidding']
     

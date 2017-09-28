@@ -75,17 +75,17 @@ def user_page_view(request):
             if item.bidding_open:
                 bidding_closed = False
     
-    #List of items to skip in the next for loop
-    skipitemslist = set()
     
+    skipitemslist = set() #List of items to skip in the next for loop
+        
     for bid in user_bids:
-        if bid.item in skipitemslist or bid.item in user_high_bids: #See if this item has already been checked
+        if bid.item in skipitemslist or bid.item in user_high_bids:  #See if this item has already been checked
             continue
             
         skipitemslist.add(bid.item) #Add this item to the skip list for subsequent loops
         
         bidcomparelist = user_bids.filter(item=bid.item).order_by('amount') #List of user bids on a particular item sorted by bid amount
-        user_out_bids.add(bidcomparelist.last())
+        user_out_bids.add(bidcomparelist.last())  #Store the highest bid in the list
         
    
     #for item in user_high_bids:
