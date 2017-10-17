@@ -4,6 +4,8 @@ from django.contrib import admin
 
 from .models import AuctionItem, Bid
 
+admin.site.site_header = 'BPS Auction Admin Panel'
+
 @admin.register(Bid)
 class BidAdmin(admin.ModelAdmin):
     list_display = ('id', 'item', 'amount', 'bidder', 'winning_bid')
