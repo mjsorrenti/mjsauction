@@ -138,3 +138,9 @@ LOGIN_REDIRECT_URL = '/'
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+
+# SendGrid environment for sending emails via the add-on service
+SENDGRID_API_KEY = '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'
+SENDGRID_PASSWORD = '39kpf3g07475'
+SENDGRID_USERNAME = 'app77678068@heroku.com'

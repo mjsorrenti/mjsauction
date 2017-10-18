@@ -13,10 +13,12 @@ class AuctionItem(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, null=True, blank=True)
     #image = models.ImageField(null=True, blank=True)
-    #current_bid = models.IntegerField(default=0)
-    #current_bidder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     bidding_open = models.BooleanField(default=True)
     
+    #These next two fields should be used only if bids are being input manually via the Admin site; they should be removed if bids are being managed via the app front end and the Bid model below
+    current_bid = models.IntegerField(default=0)
+    current_bidder = models.ForeignKey('Bidder', on_delete=models.SET_NULL, null=True, blank=True)
+        
     def __str__(self):
         return self.name
     
@@ -53,6 +55,22 @@ class AuctionItem(models.Model):
     class Meta:
         ordering = ["item_number"]
         
+        
+#The Bidder model is used to map site Users to the number they use when placing bids manually at the auction; it should not be necessary if all bids are entered by users through the app front end
+class Bidder(models.Model):
+    """
+    Model to map site Users to their bidding numbers for manual bidding
+    """
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    number = models.AutoField(primary_key=True)
+    
+    def __str__(self):
+        return str(self.number)
+
+    def full_name(self):
+        return str(self.user.first_name + ' ' + self.user.last_name)
+
         
 class Bid(models.Model):
     """

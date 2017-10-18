@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import AuctionItem, Bid
+from .models import AuctionItem, Bid, Bidder
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -88,10 +88,4 @@ def user_page_view(request):
         user_out_bids.add(bidcomparelist.last())  #Store the highest bid in the list
         
    
-    #for item in user_high_bids:
-    #    total_bid += item.current_bid
-    #    #If bidding is still open on any items, do not show payment info on the summary
-    #    if item.bidding_open:
-    #        bidding_closed = False
-        
     return render(request, 'bidding/user_page.html', context={'high_bids':user_high_bids, 'total_bid':total_bid, 'bidding_closed':bidding_closed, 'out_bids':user_out_bids,})
