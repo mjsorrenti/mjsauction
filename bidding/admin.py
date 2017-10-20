@@ -13,10 +13,10 @@ from .models import AuctionItem, Bid, Bidder
 admin.site.site_header = 'BPS Auction Admin Panel'
 
 #The Bid model is used to track bids placed through the app front end; it might not be used if bids are entered directly into the current_bid field of the AuctionItem model via the Admin pages
-@admin.register(Bid)
-class BidAdmin(admin.ModelAdmin):
-    list_display = ('id', 'item', 'amount', 'bidder', 'winning_bid')
-    list_filter = ('item', 'bidder')
+#@admin.register(Bid)
+#class BidAdmin(admin.ModelAdmin):
+#    list_display = ('id', 'item', 'amount', 'bidder', 'winning_bid')
+#    list_filter = ('item', 'bidder')
        
 class BidInline(admin.TabularInline):
     model = Bid
@@ -26,11 +26,12 @@ class BidInline(admin.TabularInline):
 @admin.register(AuctionItem)
 class AuctionItemAdmin(admin.ModelAdmin):
     #list_display = ('item_number', 'name', 'high_bid', 'high_bidder','bidding_open')
-    list_display = ('item_number', 'name', 'current_bidder', 'current_bid', 'bidding_open')
+    list_display = ('item_number', 'name', 'current_bid', 'current_bidder', 'bidder_name')
     list_display_links = ('item_number', 'name')
     list_editable = ('current_bidder', 'current_bid')
     #inlines = [BidInline]
     list_filter = ('current_bidder',)
+    search_fields = ['name']
     
     actions = ['close_bidding', 'open_bidding', 'email_winners', 'clear_bids']
     
@@ -63,7 +64,7 @@ class AuctionItemAdmin(admin.ModelAdmin):
             winning_items = queryset.filter(current_bidder=bidder)
             
             #make sure the bidder has both winning bids and an email address
-            if winning_items and bidder.user.email:
+            if winning_items and bidder.email:
                 total_bid = 0
                 #String of HTML to be inserted into the email template table
                 item_table_html = ""
@@ -76,10 +77,10 @@ class AuctionItemAdmin(admin.ModelAdmin):
                 sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
                 from_email = Email("test@example.com")
                 subject = "Will be overridden by template"
-                to_email = Email(bidder.user.email)
+                to_email = Email(bidder.email)
                 content = Content("text/html", "Will be overridden by template")
                 mail = Mail(from_email, subject, to_email, content)
-                mail.personalizations[0].add_substitution(Substitution("-firstname-", bidder.user.first_name))
+                mail.personalizations[0].add_substitution(Substitution("-firstname-", bidder.first_name))
                 mail.personalizations[0].add_substitution(Substitution("<tr><td>TO-BE-REPLACED</td></tr>", item_table_html))
                 mail.personalizations[0].add_substitution(Substitution("-totalbid-", str(total_bid)))
                 mail.template_id = "fd12b8e2-24bf-470c-b780-4d4ccd4e94b9"
@@ -88,15 +89,17 @@ class AuctionItemAdmin(admin.ModelAdmin):
                     successful_emails += 1
                 
             #If a winning bidder does not have an email address, raise a notification
-            elif winning_items and not bidder.user.email:
-                self.message_user(request, '%s does not have an email address' % bidder.user, messages.WARNING)
+            elif winning_items and not bidder.email:
+                self.message_user(request, '%s %s does not have an email address' % (bidder.first_name, bidder.last_name), messages.WARNING)
                                       
         self.message_user(request, '%s emails sent successfully' % successful_emails)
         
         
 @admin.register(Bidder)
 class BidderAdmin(admin.ModelAdmin):
-    fields = ('number','user')
+    fields = ('number','first_name', 'last_name', 'email')
     readonly_fields = ('number',)
-    list_display = ('number','user','full_name')
+    list_display = ('number','first_name','last_name', 'bid_items')
+    list_filter = ('last_name',)
+    search_fields = ['first_name', 'last_name']
     

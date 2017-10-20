@@ -13,7 +13,7 @@ class AuctionItem(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, null=True, blank=True)
     #image = models.ImageField(null=True, blank=True)
-    bidding_open = models.BooleanField(default=True)
+    bidding_open = models.BooleanField(default=False)
     
     #These next two fields should be used only if bids are being input manually via the Admin site; they should be removed if bids are being managed via the app front end and the Bid model below
     current_bid = models.IntegerField(default=0)
@@ -24,6 +24,12 @@ class AuctionItem(models.Model):
     
     def get_absolute_url(self):
         return reverse('item-detail', args=[str(self.item_number)])
+    
+    def bidder_name(self):
+        if self.current_bidder:
+            return self.current_bidder.first_name + ' ' + self.current_bidder.last_name
+        else:
+            return ''
     
     def high_bid(self):
         """
@@ -56,20 +62,26 @@ class AuctionItem(models.Model):
         ordering = ["item_number"]
         
         
-#The Bidder model is used to map site Users to the number they use when placing bids manually at the auction; it should not be necessary if all bids are entered by users through the app front end
+#The Bidder model is used if bids will be entered to the current_bid field of the AuctionItem model via the admin site; it should not be necessary if all bids are entered by users through the app front end
 class Bidder(models.Model):
     """
-    Model to map site Users to their bidding numbers for manual bidding
+    Model for bidders independent of site users
     """
     
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     number = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField(null=True, blank=True)
     
     def __str__(self):
         return str(self.number)
 
-    def full_name(self):
-        return str(self.user.first_name + ' ' + self.user.last_name)
+    def bid_items(self):
+        bid_list = []
+        for item in self.auctionitem_set.all():
+            bid_list.append(item.name)
+        return ', '.join(bid_list)
+            
 
         
 class Bid(models.Model):
