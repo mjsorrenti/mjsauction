@@ -33,7 +33,7 @@ class AuctionItemAdmin(admin.ModelAdmin):
     list_filter = ('current_bidder',)
     search_fields = ['name']
     
-    actions = ['close_bidding', 'open_bidding', 'email_winners', 'clear_bids']
+    actions = ['email_winners', 'clear_bids']
     
     def close_bidding(self, request, queryset):
         queryset.update(bidding_open = False)
@@ -75,7 +75,7 @@ class AuctionItemAdmin(admin.ModelAdmin):
                                 
                 #send email message via sendgrid
                 sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
-                from_email = Email("test@example.com")
+                from_email = Email("Claudine@brownplayschool.org")
                 subject = "Will be overridden by template"
                 to_email = Email(bidder.email)
                 content = Content("text/html", "Will be overridden by template")
@@ -99,7 +99,8 @@ class AuctionItemAdmin(admin.ModelAdmin):
 class BidderAdmin(admin.ModelAdmin):
     fields = ('number','first_name', 'last_name', 'email')
     readonly_fields = ('number',)
-    list_display = ('number','first_name','last_name', 'bid_items')
+    list_display = ('number','first_name','last_name', 'bid_items', 'amount_owed')
+    list_display_links = ('number', 'first_name', 'last_name')
     list_filter = ('last_name',)
     search_fields = ['first_name', 'last_name']
     

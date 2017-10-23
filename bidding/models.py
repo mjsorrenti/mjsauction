@@ -82,6 +82,11 @@ class Bidder(models.Model):
             bid_list.append(item.name)
         return ', '.join(bid_list)
             
+    def amount_owed(self):
+        total_bid = 0
+        for item in self.auctionitem_set.all():
+            total_bid += item.current_bid
+        return str(total_bid)
 
         
 class Bid(models.Model):
